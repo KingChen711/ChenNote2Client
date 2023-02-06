@@ -1,10 +1,18 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import counterReducer from '../features/counter/counterSlice';
+import currentNoteReducer from '../features/currentNote';
+import userReducer from '../features/userSlice';
+import { chenShareAPI } from '../services/chenNote2API';
+import noteDetailReducer from '../features/noteDetailSlice';
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
+    currentNote: currentNoteReducer,
+    user: userReducer,
+    noteDetail: noteDetailReducer,
+    [chenShareAPI.reducerPath]: chenShareAPI.reducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(chenShareAPI.middleware),
 });
 
 export type AppDispatch = typeof store.dispatch;
