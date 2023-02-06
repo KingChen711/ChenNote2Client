@@ -42,11 +42,13 @@ const NoteList = (props: Props) => {
     if (selectedNote) {
       dispatch(setNoteDetail(notes?.find((note) => note._id === selectedNote)));
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedNote]);
 
   useEffect(() => {
     setIsFetchingAnotherNotes(true);
     if (!isFetching) setIsFetchingAnotherNotes(false);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedFolder, notes]);
 
   const handleAddNote = (

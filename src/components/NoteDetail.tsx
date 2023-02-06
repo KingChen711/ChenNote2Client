@@ -23,6 +23,7 @@ const NoteDetail = (props: Props) => {
 
   useEffect(() => {
     if (isUpdating) setUpdatingNote(selectedNote);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isUpdating]);
 
   const handleSave = () => {
