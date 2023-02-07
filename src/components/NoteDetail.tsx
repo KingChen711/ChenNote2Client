@@ -20,6 +20,10 @@ const NoteDetail = () => {
   const [updateNote, { isLoading: isUpdating }] = useUpdateNoteMutation()
 
   useEffect(() => {
+    setIsEditMode(false)
+  }, [selectedNote])
+
+  useEffect(() => {
     if (isUpdating) setUpdatingNote(selectedNote)
   }, [isUpdating])
 
@@ -100,7 +104,7 @@ const NoteDetail = () => {
           </IconButton>
             )}
       </div>
-      <div className="flex-1 bg-white rounded-md p-4 overflow-y-auto relative">
+      <div className="flex-1 bg-white rounded-md p-4 overflow-y-auto relative content-note">
         {isEditMode
           ? (
           <TextEditor />

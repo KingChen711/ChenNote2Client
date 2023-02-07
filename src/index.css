@@ -25,4 +25,13 @@
   .notesOrFoldersContainer {
     @apply col-span-3 overflow-y-auto flex flex-col p-4;
   }
+  .content-note{
+    @apply text-lg;
+  }
+  .content-note h2{
+    @apply text-xl;
+  }
+  .content-note h1{
+    @apply text-2xl;
+  }
 }

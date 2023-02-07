@@ -51,4 +51,4 @@ const PendingFolder = ({ folder, status }: Props) => {
   )
 }
 
-export default PendingFolder
+export default React.memo(PendingFolder)

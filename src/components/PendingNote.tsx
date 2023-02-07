@@ -52,4 +52,4 @@ const PendingNote = ({ note, status }: Props) => {
   )
 }
 
-export default PendingNote
+export default React.memo(PendingNote)

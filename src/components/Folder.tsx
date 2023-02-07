@@ -101,4 +101,4 @@ const Folder = ({ folder }: Props) => {
   )
 }
 
-export default Folder
+export default React.memo(Folder)

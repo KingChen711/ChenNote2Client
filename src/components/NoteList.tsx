@@ -68,10 +68,10 @@ const NoteList = () => {
 
     addNote({ folderId: selectedFolder, title, createdAt: now })
       .then(() => {
-        console.log('Tạo note thành công')
+        console.log('Tạo note mới thành công')
       })
       .catch(() => {
-        console.log('Tạo note thất bại')
+        console.log('Tạo note mới thất bại')
       })
   }
 
@@ -87,6 +87,7 @@ const NoteList = () => {
         open={isOpenModal}
         onClose={() => {
           setIsOpenModal(false)
+          setTitle('')
         }}
         sx={{
           display: 'flex',

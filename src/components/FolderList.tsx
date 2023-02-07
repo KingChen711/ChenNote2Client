@@ -18,7 +18,6 @@ import { type IFolder } from '../types/types'
 
 const FolderList = () => {
   const { data: folders, isLoading } = useGetFoldersQuery(undefined)
-  console.log(folders)
   const [addFolder] = useAddFolderMutation()
   const [isOpenModal, setIsOpenModal] = useState(false)
   const [folderName, setFolderName] = useState('')
@@ -48,10 +47,10 @@ const FolderList = () => {
     setIsOpenModal(false)
     addFolder({ name: folderName })
       .then(() => {
-        console.log('Thêm folder mới thành công!')
+        console.log('Tạo folder mới thành công!')
       })
       .catch(() => {
-        console.log('Thêm folder mới thất bại!')
+        console.log('Tạo folder mới thất bại!')
       })
   }
 
@@ -62,6 +61,7 @@ const FolderList = () => {
         open={isOpenModal}
         onClose={() => {
           setIsOpenModal(false)
+          setFolderName('')
         }}
         sx={{
           display: 'flex',
