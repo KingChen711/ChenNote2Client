@@ -18,3 +18,9 @@ export interface IFolder {
   name: string
   notes: INote[]
 }
+
+export interface INotice {
+  type: 'success' | 'fail' | undefined
+  message: string
+  display: boolean
+}

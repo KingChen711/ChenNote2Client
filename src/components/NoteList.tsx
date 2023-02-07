@@ -16,6 +16,7 @@ import Note from './Note'
 import PendingNote from './PendingNote'
 import { setNoteDetail } from '../features/noteDetailSlice'
 import { type INote } from '../types/types'
+import { createMessage } from '../features/noticeMessageSlice'
 
 const NoteList = () => {
   const dispatch = useDispatch()
@@ -68,10 +69,16 @@ const NoteList = () => {
 
     addNote({ folderId: selectedFolder, title, createdAt: now })
       .then(() => {
-        console.log('Tạo note mới thành công')
+        dispatch(createMessage({
+          type: 'success',
+          message: 'Tạo note mới thành công'
+        }))
       })
       .catch(() => {
-        console.log('Tạo note mới thất bại')
+        dispatch(createMessage({
+          type: 'fail',
+          message: 'Tạo note mới thất bại'
+        }))
       })
   }
 

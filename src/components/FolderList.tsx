@@ -15,9 +15,12 @@ import {
 import PendingFolder from './PendingFolder'
 import Folder from './Folder'
 import { type IFolder } from '../types/types'
+import { useDispatch } from 'react-redux'
+import { createMessage } from '../features/noticeMessageSlice'
 
 const FolderList = () => {
   const { data: folders, isLoading } = useGetFoldersQuery(undefined)
+  const dispatch = useDispatch()
   const [addFolder] = useAddFolderMutation()
   const [isOpenModal, setIsOpenModal] = useState(false)
   const [folderName, setFolderName] = useState('')
@@ -47,10 +50,16 @@ const FolderList = () => {
     setIsOpenModal(false)
     addFolder({ name: folderName })
       .then(() => {
-        console.log('Tạo folder mới thành công!')
+        dispatch(createMessage({
+          type: 'success',
+          message: 'Tạo folder mới thành công'
+        }))
       })
       .catch(() => {
-        console.log('Tạo folder mới thất bại!')
+        dispatch(createMessage({
+          type: 'fail',
+          message: 'Tạo folder mới thất bại'
+        }))
       })
   }
 

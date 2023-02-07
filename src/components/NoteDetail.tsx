@@ -9,6 +9,7 @@ import 'react-quill/dist/quill.snow.css'
 import TextEditor from './TextEditor'
 import SaveAsOutlinedIcon from '@mui/icons-material/SaveAsOutlined'
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined'
+import { createMessage } from '../features/noticeMessageSlice'
 
 const NoteDetail = () => {
   const dispatch = useDispatch()
@@ -36,8 +37,18 @@ const NoteDetail = () => {
       noteId: selectedNote,
       note: noteDetail
     })
-      .then(() => { console.log('Cập nhật note thành công') })
-      .catch(() => { console.log('Cập nhật note thất bại') })
+      .then(() => {
+        dispatch(createMessage({
+          type: 'success',
+          message: 'Cập nhật note thành công'
+        }))
+      })
+      .catch(() => {
+        dispatch(createMessage({
+          type: 'fail',
+          message: 'Cập nhật note thất bại'
+        }))
+      })
   }
 
   return (

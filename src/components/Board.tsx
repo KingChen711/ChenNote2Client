@@ -8,12 +8,16 @@ import LogoutIcon from '@mui/icons-material/Logout'
 import { IconButton } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import NoteDetail from './NoteDetail'
+import NoticeMessage from './NoticeMessage'
+import { selectNoticeMessage } from '../features/noticeMessageSlice'
 
 const Board = () => {
   const navigate = useNavigate()
   const user = useSelector(selectUser)
+  const displayNoticeMessage = useSelector(selectNoticeMessage).display
   return (
-    <div className="flex flex-col items-center justify-between pb-12 mx-auto h-screen">
+    <div className="flex flex-col items-center justify-between pb-12 mx-auto h-screen relative">
+      {displayNoticeMessage && <NoticeMessage />}
       <img alt="" src={logo} className="mt-8  h-20 rounded-lg shadow-sm shadow-white" />
       <div className="flex justify-end items-center mb-2 w-10/12 pr-4">
         <div className="text-xl font-bold text-white">{user.name}</div>

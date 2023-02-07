@@ -8,6 +8,7 @@ import EditIcon from '@mui/icons-material/Edit'
 import PendingNote from './PendingNote'
 import { setNoteDetail } from '../features/noteDetailSlice'
 import { type INote } from '../types/types'
+import { createMessage } from '../features/noticeMessageSlice'
 
 interface Props {
   note: INote
@@ -24,6 +25,18 @@ const Note = ({ note }: Props) => {
   const handleDeleteNote = async () => {
     setIsDeleting(true)
     await deleteNote({ folderId: selectedFolder, noteId: note._id })
+      .then(() => {
+        dispatch(createMessage({
+          type: 'success',
+          message: 'Xóa note thành công'
+        }))
+      })
+      .catch(() => {
+        dispatch(createMessage({
+          type: 'fail',
+          message: 'Xóa note thất bại'
+        }))
+      })
     if (selectedNote === note._id) {
       dispatch(setNote(''))
       dispatch(
