@@ -16,7 +16,7 @@ import Note from './Note'
 import PendingNote from './PendingNote'
 import { setNoteDetail } from '../features/noteDetailSlice'
 import { type INote } from '../types/types'
-import { createMessage } from '../features/noticeMessageSlice'
+import useCreateNotice from '../hooks/useCreateNotice'
 
 const NoteList = () => {
   const dispatch = useDispatch()
@@ -27,6 +27,7 @@ const NoteList = () => {
   const [title, setTitle] = useState('')
   const [pendingNotes, setPendingNotes] = useState<INote[]>()
   const [addNote] = useAddNoteMutation()
+  const { createNotice } = useCreateNotice()
   const [isFetchingNotesOfAnotherFolder, setIsFetchingAnotherNotes] =
     useState(false)
 
@@ -69,16 +70,16 @@ const NoteList = () => {
 
     addNote({ folderId: selectedFolder, title, createdAt: now })
       .then(() => {
-        dispatch(createMessage({
+        createNotice({
           type: 'success',
           message: 'Tạo note mới thành công'
-        }))
+        })
       })
       .catch(() => {
-        dispatch(createMessage({
+        createNotice({
           type: 'fail',
           message: 'Tạo note mới thất bại'
-        }))
+        })
       })
   }
 

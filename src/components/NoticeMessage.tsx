@@ -1,25 +1,9 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import ErrorIcon from '@mui/icons-material/Error'
-import { useDispatch, useSelector } from 'react-redux'
-import { selectNoticeMessage, unmountMessage } from '../features/noticeMessageSlice'
+import { type INotice } from '../types/types'
 
-const NoticeMessage = () => {
-  const { message, type } = useSelector(selectNoticeMessage)
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    const timeOut = setTimeout(() => {
-      console.log('timeout')
-
-      dispatch(unmountMessage())
-    }, 3000)
-
-    return () => {
-      clearTimeout(timeOut)
-    }
-  }, [])
-
+const NoticeMessage = ({ message, type }: Omit<INotice, 'id'>) => {
   return (
     <div
       style={{

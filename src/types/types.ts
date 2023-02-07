@@ -20,7 +20,7 @@ export interface IFolder {
 }
 
 export interface INotice {
+  id: string
   type: 'success' | 'fail' | undefined
   message: string
-  display: boolean
 }

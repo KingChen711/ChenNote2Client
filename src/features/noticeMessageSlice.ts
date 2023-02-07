@@ -3,25 +3,22 @@ import { createSlice } from '@reduxjs/toolkit'
 import { type RootState } from '../app/store'
 import { type INotice } from '../types/types'
 
-const initialState: INotice = {
-  type: undefined,
-  message: '',
-  display: false
-}
+const initialState: INotice[] = []
 export const noticeMessageSlice = createSlice({
   name: 'noticeMessage',
   initialState,
   reducers: {
-    createMessage: (state, action) => {
-      state.type = action.payload.type
-      state.message = action.payload.message
-      state.display = true
+    addMessage: (state, action) => {
+      return [...state]
     },
-    unmountMessage: (state) => { state.display = false }
+
+    removeMessage: (state, action) => {
+      return state.filter((i) => i.id !== action.payload)
+    }
   }
 })
 
-export const { createMessage, unmountMessage } = noticeMessageSlice.actions
+export const { addMessage, removeMessage } = noticeMessageSlice.actions
 
 export const selectNoticeMessage = (state: RootState) => state.noticeMessage
 

@@ -12,7 +12,7 @@ import EditIcon from '@mui/icons-material/Edit'
 import PendingFolder from './PendingFolder'
 import { setNoteDetail } from '../features/noteDetailSlice'
 import { type IFolder } from '../types/types'
-import { createMessage } from '../features/noticeMessageSlice'
+import useCreateNotice from '../hooks/useCreateNotice'
 
 interface Props {
   folder: IFolder
@@ -24,21 +24,22 @@ const Folder = ({ folder }: Props) => {
   const [deleteFolder] = useDeleteFolderMutation()
   const [isDeleting, setIsDeleting] = useState(false)
   const [isHover, setIsHover] = useState(false)
+  const { createNotice } = useCreateNotice()
 
   const handleDeleteFolder = async () => {
     setIsDeleting(true)
     await deleteFolder({ folderId: folder._id })
       .then(() => {
-        dispatch(createMessage({
+        createNotice({
           type: 'success',
           message: 'Xóa folder thành công'
-        }))
+        })
       })
       .catch(() => {
-        dispatch(createMessage({
+        createNotice({
           type: 'fail',
           message: 'Xóa folder thất bại'
-        }))
+        })
       })
     if (selectedFolder === folder._id) {
       dispatch(setFolder(''))
