@@ -1,74 +1,72 @@
-import React, { useState, useEffect } from 'react';
-import CreateNewFolderOutlinedIcon from '@mui/icons-material/CreateNewFolderOutlined';
+import React, { useState, useEffect } from 'react'
+import CreateNewFolderOutlinedIcon from '@mui/icons-material/CreateNewFolderOutlined'
 import {
   Button,
   IconButton,
   Modal,
   TextField,
-  Typography,
-} from '@mui/material';
-import { v4 as uuidv4 } from 'uuid';
+  Typography
+} from '@mui/material'
+import { v4 as uuidv4 } from 'uuid'
 import {
   useAddFolderMutation,
-  useGetFoldersQuery,
-} from '../services/chenNote2API';
-import { IFolder } from '../services/chenNote2API';
-import PendingFolder from './PendingFolder';
-import Folder from './Folder';
+  useGetFoldersQuery
+} from '../services/chenNote2API'
+import PendingFolder from './PendingFolder'
+import Folder from './Folder'
+import { type IFolder } from '../types/types'
 
-
-type Props = {};
-
-const FolderList = (props: Props) => {
-  const { data: folders, isLoading } = useGetFoldersQuery();
-  console.log(folders);
-  const [addFolder] = useAddFolderMutation();
-  const [isOpenModal, setIsOpenModal] = useState(false);
-  const [folderName, setFolderName] = useState('');
-  const [pendingFolders, setPendingFolders] = useState<IFolder[]>();
+const FolderList = () => {
+  const { data: folders, isLoading } = useGetFoldersQuery(undefined)
+  console.log(folders)
+  const [addFolder] = useAddFolderMutation()
+  const [isOpenModal, setIsOpenModal] = useState(false)
+  const [folderName, setFolderName] = useState('')
+  const [pendingFolders, setPendingFolders] = useState<IFolder[]>()
 
   useEffect(() => {
-    setPendingFolders([]);
-  }, [folders]);
+    setPendingFolders([])
+  }, [folders])
 
   const handleAddFolder = (
     e:
-      | React.FormEvent<HTMLFormElement>
-      | React.MouseEvent<HTMLButtonElement, MouseEvent>
+    | React.FormEvent<HTMLFormElement>
+    | React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    e.preventDefault();
-    if (!folderName) return;
+    e.preventDefault()
+    if (folderName === '') return
 
     const pendingFolder: IFolder = {
       _id: uuidv4(),
       name: folderName,
-      notes: [],
-    };
+      notes: []
+    }
 
-    setPendingFolders((prev) => [...(prev || []), pendingFolder]);
+    setPendingFolders((prev) => [...(prev ?? []), pendingFolder] as IFolder[])
 
-    setFolderName('');
-    setIsOpenModal(false);
-    addFolder({ name: folderName });
-  };
-
-  const handleClick = () => {
-    console.log();
-  };
+    setFolderName('')
+    setIsOpenModal(false)
+    addFolder({ name: folderName })
+      .then(() => {
+        console.log('Thêm folder mới thành công!')
+      })
+      .catch(() => {
+        console.log('Thêm folder mới thất bại!')
+      })
+  }
 
   return (
-    <div
-      onClick={handleClick}
-      className="notesOrFoldersContainer bg-[#D49B1C] relative z-50"
-    >
+    <div className="notesOrFoldersContainer bg-[#D49B1C] relative z-50">
       <Modal
         closeAfterTransition
         open={isOpenModal}
-        onClose={() => setIsOpenModal(false)}
+        onClose={() => {
+          setIsOpenModal(false)
+        }}
         sx={{
           display: 'flex',
           justifyContent: 'center',
-          alignItems: 'center',
+          alignItems: 'center'
         }}
       >
         <form
@@ -83,11 +81,15 @@ const FolderList = (props: Props) => {
             label="Folder's Name"
             variant="standard"
             value={folderName}
-            onChange={(e) => setFolderName(e.target.value)}
+            onChange={(e) => {
+              setFolderName(e.target.value)
+            }}
           />
           <div className="flex justify-end mt-4">
             <Button
-              onClick={() => setIsOpenModal(false)}
+              onClick={() => {
+                setIsOpenModal(false)
+              }}
               variant="outlined"
               style={{ marginRight: '8px' }}
             >
@@ -107,29 +109,33 @@ const FolderList = (props: Props) => {
             fontSize: {
               md: '20px',
               lg: '22px',
-              xl: '24px',
-            },
+              xl: '24px'
+            }
           }}
         >
           Folders
         </Typography>
-        <IconButton onClick={() => setIsOpenModal(true)}>
+        <IconButton
+          onClick={() => {
+            setIsOpenModal(true)
+          }}
+        >
           <CreateNewFolderOutlinedIcon
             style={{
               color: 'white',
-              fontSize: '32px',
+              fontSize: '32px'
             }}
           />
         </IconButton>
       </div>
       <div className="overflow-y-auto">
         {folders?.map((folder: IFolder) => {
-          return <Folder key={folder._id} folder={folder} />;
+          return <Folder key={folder._id} folder={folder} />
         })}
         {pendingFolders?.map((folder: IFolder) => {
           return (
             <PendingFolder key={folder._id} status="creating" folder={folder} />
-          );
+          )
         })}
         {isLoading && (
           <>
@@ -142,7 +148,7 @@ const FolderList = (props: Props) => {
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default FolderList;
+export default FolderList

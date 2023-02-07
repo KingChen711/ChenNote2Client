@@ -1,21 +1,21 @@
-import React from 'react';
-import { Typography } from '@mui/material';
-import { INote } from '../services/chenNote2API';
-import Skeleton from 'react-loading-skeleton';
-import 'react-loading-skeleton/dist/skeleton.css';
+import React from 'react'
+import { Typography } from '@mui/material'
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
+import { type INote } from '../types/types'
 
-type Props = {
-  note?: INote;
-  status: string;
-};
+interface Props {
+  note?: INote
+  status: string
+}
 
 const statusText = {
   creating: 'Đang tạo note...',
-  deleting: 'Đang xóa note...',
-};
+  deleting: 'Đang xóa note...'
+}
 
 const PendingNote = ({ note, status }: Props) => {
-  const statusValue = statusText[status as keyof typeof statusText];
+  const statusValue = statusText[status as keyof typeof statusText]
 
   if (status === 'skeleton') {
     return (
@@ -23,7 +23,7 @@ const PendingNote = ({ note, status }: Props) => {
         <Skeleton className="h-5" />
         <Skeleton className="h-3" />
       </div>
-    );
+    )
   }
 
   return (
@@ -40,35 +40,16 @@ const PendingNote = ({ note, status }: Props) => {
           fontSize: {
             md: '16px',
             lg: '18px',
-            xl: '20px',
-          },
+            xl: '20px'
+          }
         }}
         className="font-bold"
       >
         {note?.title}
       </Typography>
-      <Typography
-        sx={{
-          fontSize: {
-            md: '10px',
-            lg: '12px',
-            xl: '14px',
-          },
-        }}
-      >
-        {new Date(note?.createdAt || "").toLocaleDateString('en-US', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-          hour: 'numeric',
-          minute: 'numeric',
-          second: 'numeric',
-          hour12: true,
-        })}
-      </Typography>
       <div className="font-bold">{statusValue}</div>
     </div>
-  );
-};
+  )
+}
 
-export default PendingNote;
+export default PendingNote

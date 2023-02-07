@@ -1,28 +1,28 @@
 /* eslint-disable no-param-reassign */
-import { createSlice } from '@reduxjs/toolkit';
-import { RootState } from '../app/store';
-import { INote } from '../services/chenNote2API';
+import { createSlice } from '@reduxjs/toolkit'
+import { type RootState } from '../app/store'
+import { type INote } from '../types/types'
 
 const initialState: INote = {
   title: '',
   content: '',
   _id: '',
   folder: '',
-  createdAt: '',
-};
+  createdAt: ''
+}
 export const noteDetailSlice = createSlice({
   name: 'noteDetail',
   initialState,
   reducers: {
     setNoteDetail: (state, action) => action.payload,
     setNoteContent: (state, action) => {
-      state.content = action.payload;
-    },
-  },
-});
+      state.content = action.payload
+    }
+  }
+})
 
-export const { setNoteDetail, setNoteContent } = noteDetailSlice.actions;
+export const { setNoteDetail, setNoteContent } = noteDetailSlice.actions
 
-export const selectNoteDetail = (state: RootState) => state.noteDetail;
+export const selectNoteDetail = (state: RootState) => state.noteDetail
 
-export default noteDetailSlice.reducer;
+export default noteDetailSlice.reducer

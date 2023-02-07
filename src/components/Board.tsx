@@ -1,19 +1,17 @@
-import React from 'react';
-import FolderList from './FolderList';
-import NoteList from './NoteList';
-import logo from '../assets/logo.jpg';
-import { useSelector } from 'react-redux';
-import { selectUser } from '../features/userSlice';
-import LogoutIcon from '@mui/icons-material/Logout';
-import { IconButton } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import NoteDetail from './NoteDetail';
+import React from 'react'
+import FolderList from './FolderList'
+import NoteList from './NoteList'
+import logo from '../assets/logo.jpg'
+import { useSelector } from 'react-redux'
+import { selectUser } from '../features/userSlice'
+import LogoutIcon from '@mui/icons-material/Logout'
+import { IconButton } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
+import NoteDetail from './NoteDetail'
 
-type Props = {};
-
-const Board = (props: Props) => {
-  const navigate = useNavigate();
-  const user = useSelector(selectUser);
+const Board = () => {
+  const navigate = useNavigate()
+  const user = useSelector(selectUser)
   return (
     <div className="flex flex-col items-center justify-between pb-12 mx-auto h-screen">
       <img alt="" src={logo} className="mt-8  h-20 rounded-lg shadow-sm shadow-white" />
@@ -26,14 +24,14 @@ const Board = (props: Props) => {
         />
         <IconButton
           onClick={() => {
-            localStorage.clear();
-            navigate('/auth');
+            localStorage.clear()
+            navigate('/auth')
           }}
         >
           <LogoutIcon
             style={{
               color: 'white',
-              fontSize: '32px',
+              fontSize: '32px'
             }}
           />
         </IconButton>
@@ -44,7 +42,7 @@ const Board = (props: Props) => {
         <NoteDetail />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Board;
+export default Board

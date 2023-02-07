@@ -1,8 +1,8 @@
-import React from 'react';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectNoteDetail, setNoteContent } from '../features/noteDetailSlice';
+import React from 'react'
+import ReactQuill from 'react-quill'
+import 'react-quill/dist/quill.snow.css'
+import { useDispatch, useSelector } from 'react-redux'
+import { selectNoteDetail, setNoteContent } from '../features/noteDetailSlice'
 
 const modules = {
   toolbar: [
@@ -12,12 +12,12 @@ const modules = {
       { list: 'ordered' },
       { list: 'bullet' },
       { indent: '-1' },
-      { indent: '+1' },
+      { indent: '+1' }
     ],
     ['link', 'image'],
-    ['clean'],
-  ],
-};
+    ['clean']
+  ]
+}
 
 const formats = [
   'header',
@@ -30,16 +30,16 @@ const formats = [
   'bullet',
   'indent',
   'link',
-  'image',
-];
+  'image'
+]
 
 const TextEditor = () => {
-  const content = useSelector(selectNoteDetail).content;
-  const dispatch = useDispatch();
+  const content = useSelector(selectNoteDetail).content
+  const dispatch = useDispatch()
 
   const handleChange = (value: string) => {
-    dispatch(setNoteContent(value));
-  };
+    dispatch(setNoteContent(value))
+  }
 
   return (
     <ReactQuill
@@ -48,7 +48,7 @@ const TextEditor = () => {
       value={content}
       onChange={handleChange}
     />
-  );
-};
+  )
+}
 
-export default TextEditor;
+export default TextEditor

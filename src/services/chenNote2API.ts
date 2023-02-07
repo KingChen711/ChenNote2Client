@@ -1,31 +1,11 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { URL_API } from '../utils/constants';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { URL_API } from '../utils/constants'
+import { type IFolder, type INote, type IUser } from '../types/types'
 
-interface IUser {
-  _id: string;
-  name: string;
-  email: string;
-  avatarUrl: string;
-}
-
-export interface INote {
-  _id: string;
-  title: string;
-  content: string;
-  folder: string;
-  createdAt: string;
-}
-
-export interface IFolder {
-  _id: string;
-  name: string;
-  notes: INote[];
-}
-
-const baseUrl = `${URL_API}/api/`;
+const baseUrl = `${URL_API}/api/`
 
 export const chenShareAPI = createApi({
-  reducerPath: 'chenShareApi',
+  reducerPath: 'chenNote2Api',
   baseQuery: fetchBaseQuery({ baseUrl }),
   tagTypes: ['Folders', 'Notes'],
   endpoints: (builder) => ({
@@ -33,25 +13,29 @@ export const chenShareAPI = createApi({
       query: (body) => ({
         url: '/auth/login',
         method: 'POST',
-        body,
-      }),
+        body
+      })
     }),
-    getUserBasic: builder.query<IUser, void>({
+    getUserBasic: builder.query<IUser, undefined>({
       query: () => ({
         url: '/auth/user',
         headers: {
-          authorization: `Bearer ${localStorage.getItem('chen-note-2-token')}`,
-        },
-      }),
+          authorization: `Bearer ${
+            localStorage.getItem('chen-note-2-token') ?? ''
+          }`
+        }
+      })
     }),
-    getFolders: builder.query<[IFolder], void>({
+    getFolders: builder.query<IFolder[], undefined>({
       query: () => ({
         url: '/folders',
         headers: {
-          authorization: `Bearer ${localStorage.getItem('chen-note-2-token')}`,
-        },
+          authorization: `Bearer ${
+            localStorage.getItem('chen-note-2-token') ?? ''
+          }`
+        }
       }),
-      providesTags: ['Folders'],
+      providesTags: ['Folders']
     }),
     addFolder: builder.mutation<IFolder, { name: string }>({
       query: (body) => ({
@@ -59,10 +43,12 @@ export const chenShareAPI = createApi({
         method: 'POST',
         body,
         headers: {
-          authorization: `Bearer ${localStorage.getItem('chen-note-2-token')}`,
-        },
+          authorization: `Bearer ${
+            localStorage.getItem('chen-note-2-token') ?? ''
+          }`
+        }
       }),
-      invalidatesTags: ['Folders'],
+      invalidatesTags: ['Folders']
     }),
     deleteFolder: builder.mutation<IFolder, { folderId: string }>({
       query: (body) => ({
@@ -70,58 +56,68 @@ export const chenShareAPI = createApi({
         method: 'DELETE',
         body,
         headers: {
-          authorization: `Bearer ${localStorage.getItem('chen-note-2-token')}`,
-        },
+          authorization: `Bearer ${
+            localStorage.getItem('chen-note-2-token') ?? ''
+          }`
+        }
       }),
-      invalidatesTags: ['Folders'],
+      invalidatesTags: ['Folders']
     }),
-    getNotes: builder.query<[INote], string>({
+    getNotes: builder.query<INote[], string>({
       query: (folderId) => ({
         url: `/notes/${folderId}`,
         headers: {
-          authorization: `Bearer ${localStorage.getItem('chen-note-2-token')}`,
-        },
+          authorization: `Bearer ${
+            localStorage.getItem('chen-note-2-token') ?? ''
+          }`
+        }
       }),
-      providesTags: ['Notes'],
+      providesTags: ['Notes']
     }),
     addNote: builder.mutation<
-      INote,
-      { folderId: string; title: string; createdAt: Date }
+    INote,
+    { folderId: string, title: string, createdAt: Date }
     >({
       query: (body) => ({
         url: '/notes',
         method: 'POST',
         body,
         headers: {
-          authorization: `Bearer ${localStorage.getItem('chen-note-2-token')}`,
-        },
+          authorization: `Bearer ${
+            localStorage.getItem('chen-note-2-token') ?? ''
+          }`
+        }
       }),
-      invalidatesTags: ['Notes'],
+      invalidatesTags: ['Notes']
     }),
-    deleteNote: builder.mutation<INote, { folderId: string; noteId: string }>({
+    deleteNote: builder.mutation<INote, { folderId: string, noteId: string }>({
       query: (body) => ({
         url: '/notes',
         method: 'DELETE',
         body,
         headers: {
-          authorization: `Bearer ${localStorage.getItem('chen-note-2-token')}`,
-        },
+          authorization: `Bearer ${
+            localStorage.getItem('chen-note-2-token') ?? ''
+          }`
+        }
       }),
-      invalidatesTags: ['Notes'],
+      invalidatesTags: ['Notes']
     }),
-    updateNote: builder.mutation<INote, { note: INote; noteId: string }>({
+    updateNote: builder.mutation<INote, { note: INote, noteId: string }>({
       query: (body) => ({
         url: '/notes/',
         method: 'PUT',
         body,
         headers: {
-          authorization: `Bearer ${localStorage.getItem('chen-note-2-token')}`,
-        },
+          authorization: `Bearer ${
+            localStorage.getItem('chen-note-2-token') ?? ''
+          }`
+        }
       }),
-      invalidatesTags: ['Notes'],
-    }),
-  }),
-});
+      invalidatesTags: ['Notes']
+    })
+  })
+})
 
 export const {
   useLoginUserMutation,
@@ -133,4 +129,4 @@ export const {
   useAddNoteMutation,
   useDeleteNoteMutation,
   useUpdateNoteMutation
-} = chenShareAPI;
+} = chenShareAPI

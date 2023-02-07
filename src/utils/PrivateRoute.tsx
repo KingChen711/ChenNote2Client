@@ -1,36 +1,38 @@
-import React, { useEffect } from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { Box, CircularProgress, Typography } from '@mui/material';
-import { setUser } from '../features/userSlice';
-import { useGetUserBasicQuery } from '../services/chenNote2API';
+import React, { useEffect } from 'react'
+import { Navigate, Outlet } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { Box, CircularProgress, Typography } from '@mui/material'
+import { setUser } from '../features/userSlice'
+import { useGetUserBasicQuery } from '../services/chenNote2API'
 
-const PrivateRoute = () => {
-  const token = localStorage.getItem('chen-note-2-token');
-  const dispatch = useDispatch();
-  const { data, isError, isLoading } = useGetUserBasicQuery();
+const PrivateRoute: React.FunctionComponent = () => {
+  const token = localStorage.getItem('chen-note-2-token')
+  const dispatch = useDispatch()
+  const { data, isError, isLoading } = useGetUserBasicQuery(undefined)
 
   useEffect(() => {
-    async function getUserData() {
+    const getUserData: () => void = () => {
       dispatch(
         setUser({
           id: data?._id,
           email: data?.email,
           name: data?.name,
-          avatarUrl: data?.avatarUrl,
+          avatarUrl: data?.avatarUrl
         })
-      );
+      )
     }
-    getUserData();
-  }, [data]);
+    getUserData()
+  }, [data])
 
   // execute when have token but error when get auth user
-  if (token && isError) {
+  if (token !== null && isError) {
     return (
       <Box display="flex " justifyContent="center">
-        <Typography variant="h2">Interval server error</Typography>
+        <Typography variant="h2" className="text-center text-white">
+          Interval server error or network error
+        </Typography>
       </Box>
-    );
+    )
   }
 
   if (isLoading) {
@@ -38,14 +40,14 @@ const PrivateRoute = () => {
       <Box display="flex " justifyContent="center">
         <CircularProgress size="4rem" />
       </Box>
-    );
+    )
   }
 
-  if (token && token !== 'undefined') {
-    return <Outlet />;
+  if (token !== null && token !== 'undefined') {
+    return <Outlet />
   }
 
-  return <Navigate to="/auth" />;
-};
+  return <Navigate to="/auth" />
+}
 
-export default PrivateRoute;
+export default PrivateRoute

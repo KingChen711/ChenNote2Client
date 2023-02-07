@@ -1,52 +1,61 @@
-import React, { useState } from 'react';
-import { IconButton, Typography } from '@mui/material';
-import { IFolder, useDeleteFolderMutation } from '../services/chenNote2API';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectCurrentNote, setFolder, setNote } from '../features/currentNote';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import PendingFolder from './PendingFolder';
-import { setNoteDetail } from '../features/noteDetailSlice';
+import React, { useState } from 'react'
+import { IconButton, Typography } from '@mui/material'
+import { useDeleteFolderMutation } from '../services/chenNote2API'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+  selectCurrentNote,
+  setFolder,
+  setNote
+} from '../features/currentNoteSlice'
+import DeleteIcon from '@mui/icons-material/Delete'
+import EditIcon from '@mui/icons-material/Edit'
+import PendingFolder from './PendingFolder'
+import { setNoteDetail } from '../features/noteDetailSlice'
+import { type IFolder } from '../types/types'
 
-type Props = {
-  folder: IFolder;
-};
+interface Props {
+  folder: IFolder
+}
 
 const Folder = ({ folder }: Props) => {
-  const dispatch = useDispatch();
-  const selectedFolder = useSelector(selectCurrentNote).folder;
-  const [deleteFolder] = useDeleteFolderMutation();
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [isHover, setIsHover] = useState(false);
+  const dispatch = useDispatch()
+  const selectedFolder = useSelector(selectCurrentNote).folder
+  const [deleteFolder] = useDeleteFolderMutation()
+  const [isDeleting, setIsDeleting] = useState(false)
+  const [isHover, setIsHover] = useState(false)
 
   const handleDeleteFolder = async () => {
-    setIsDeleting(true);
-    await deleteFolder({ folderId: folder._id });
+    setIsDeleting(true)
+    await deleteFolder({ folderId: folder._id })
     if (selectedFolder === folder._id) {
-      dispatch(setFolder(''));
-      dispatch(setNote(''));
+      dispatch(setFolder(''))
+      dispatch(setNote(''))
       dispatch(
         setNoteDetail({
           _id: '',
           title: '',
           content: '',
           folder: '',
-          createdAt: '',
+          createdAt: ''
         })
-      );
+      )
     }
-  };
+  }
 
-  if (isDeleting) return <PendingFolder folder={folder} status="deleting" />;
+  if (isDeleting) return <PendingFolder folder={folder} status="deleting" />
 
   return (
     <div
-      onMouseEnter={() => setIsHover(true)}
-      onMouseLeave={() => setIsHover(false)}
+      onMouseEnter={() => {
+        setIsHover(true)
+      }}
+      onMouseLeave={() => {
+        setIsHover(false)
+      }}
       onClick={() => dispatch(setFolder(folder._id))}
       style={{
         backgroundColor: folder._id === selectedFolder ? '#1150D4' : undefined,
-        color: folder._id === selectedFolder ? 'white' : undefined,
+        color: folder._id === selectedFolder ? 'white' : undefined
       }}
       className="bg-white font-bold py-2 px-4 rounded-md mb-2 cursor-pointer flex justify-between items-center"
     >
@@ -62,8 +71,8 @@ const Folder = ({ folder }: Props) => {
           fontSize: {
             md: '16px',
             lg: '18px',
-            xl: '20px',
-          },
+            xl: '20px'
+          }
         }}
       >
         {folder.name}
@@ -74,7 +83,7 @@ const Folder = ({ folder }: Props) => {
             <EditIcon
               style={{
                 color: folder._id === selectedFolder ? 'white' : undefined,
-                fontSize: '18px',
+                fontSize: '18px'
               }}
             />
           </IconButton>
@@ -82,14 +91,14 @@ const Folder = ({ folder }: Props) => {
             <DeleteIcon
               style={{
                 color: folder._id === selectedFolder ? 'white' : undefined,
-                fontSize: '18px',
+                fontSize: '18px'
               }}
             />
           </IconButton>
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default Folder;
+export default Folder

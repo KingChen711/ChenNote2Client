@@ -1,55 +1,56 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectCurrentNote, setNote } from '../features/currentNote';
-import { INote, useDeleteNoteMutation } from '../services/chenNote2API';
-import { IconButton, Typography } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import PendingNote from './PendingNote';
-import { setNoteDetail } from '../features/noteDetailSlice';
+import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { selectCurrentNote, setNote } from '../features/currentNoteSlice'
+import { useDeleteNoteMutation } from '../services/chenNote2API'
+import { IconButton, Typography } from '@mui/material'
+import DeleteIcon from '@mui/icons-material/Delete'
+import EditIcon from '@mui/icons-material/Edit'
+import PendingNote from './PendingNote'
+import { setNoteDetail } from '../features/noteDetailSlice'
+import { type INote } from '../types/types'
 
-type Props = {
-  note: INote;
-};
+interface Props {
+  note: INote
+}
 
 const Note = ({ note }: Props) => {
-  const selectedNote = useSelector(selectCurrentNote).note;
-  const selectedFolder = useSelector(selectCurrentNote).folder;
-  const [isHover, setIsHover] = useState(false);
-  const [deleteNote] = useDeleteNoteMutation();
-  const dispatch = useDispatch();
-  const [isDeleting, setIsDeleting] = useState(false);
+  const selectedNote = useSelector(selectCurrentNote).note
+  const selectedFolder = useSelector(selectCurrentNote).folder
+  const [isHover, setIsHover] = useState(false)
+  const [deleteNote] = useDeleteNoteMutation()
+  const dispatch = useDispatch()
+  const [isDeleting, setIsDeleting] = useState(false)
 
   const handleDeleteNote = async () => {
-    setIsDeleting(true);
-    await deleteNote({ folderId: selectedFolder, noteId: note._id });
+    setIsDeleting(true)
+    await deleteNote({ folderId: selectedFolder, noteId: note._id })
     if (selectedNote === note._id) {
-      dispatch(setNote(''));
+      dispatch(setNote(''))
       dispatch(
         setNoteDetail({
           _id: '',
           title: '',
           content: '',
           folder: '',
-          createdAt: '',
+          createdAt: ''
         })
-      );
+      )
     }
-  };
+  }
 
-  if (isDeleting) return <PendingNote note={note} status="deleting" />;
+  if (isDeleting) return <PendingNote note={note} status="deleting" />
 
   return (
     <div
-      onMouseEnter={() => setIsHover(true)}
-      onMouseLeave={() => setIsHover(false)}
+      onMouseEnter={() => { setIsHover(true) }}
+      onMouseLeave={() => { setIsHover(false) }}
       onClick={() => {
-        dispatch(setNote(note._id));
+        dispatch(setNote(note._id))
       }}
       style={{
         display: selectedFolder !== note.folder ? 'none' : 'block',
         backgroundColor: note._id === selectedNote ? '#D4391C' : undefined,
-        color: note._id === selectedNote ? 'white' : undefined,
+        color: note._id === selectedNote ? 'white' : undefined
       }}
       className="bg-white py-2 px-4 rounded-md mb-2 cursor-pointer"
     >
@@ -66,8 +67,8 @@ const Note = ({ note }: Props) => {
             fontSize: {
               md: '16px',
               lg: '18px',
-              xl: '20px',
-            },
+              xl: '20px'
+            }
           }}
           className="font-bold"
         >
@@ -79,7 +80,7 @@ const Note = ({ note }: Props) => {
               <EditIcon
                 style={{
                   color: note._id === selectedNote ? 'white' : undefined,
-                  fontSize: '18px',
+                  fontSize: '18px'
                 }}
               />
             </IconButton>
@@ -87,7 +88,7 @@ const Note = ({ note }: Props) => {
               <DeleteIcon
                 style={{
                   color: note._id === selectedNote ? 'white' : undefined,
-                  fontSize: '18px',
+                  fontSize: '18px'
                 }}
               />
             </IconButton>
@@ -99,8 +100,8 @@ const Note = ({ note }: Props) => {
           fontSize: {
             md: '10px',
             lg: '12px',
-            xl: '14px',
-          },
+            xl: '14px'
+          }
         }}
       >
         {new Date(note.createdAt).toLocaleDateString('en-US', {
@@ -110,11 +111,11 @@ const Note = ({ note }: Props) => {
           hour: 'numeric',
           minute: 'numeric',
           second: 'numeric',
-          hour12: true,
+          hour12: true
         })}
       </Typography>
     </div>
-  );
-};
+  )
+}
 
-export default Note;
+export default Note
